@@ -27,19 +27,21 @@ image {
   user-select: none;
   overflow: hidden;
   width: 100vw;
-  /* outline: 1px solid black; */
 }
 
 #viewport {
-   margin: auto; 
-  height: 200vh;
-  width: 200vw;
+  margin: auto;
+  height: 100vh;
+  width: 100vw;
   will-change: transform;
   overflow: hidden;
-  /* border: 1px solid red; */
-}
-
-.canvas-parent{
   display: grid;
   grid-template-columns: repeat(5, 1fr);
+}
+
+.img-items {
+  object-fit: cover;
+}
+
+.cursor-text {
 }
