@@ -1,5 +1,6 @@
 import "./style.css";
 import { data } from "./data";
+
 let pointerX = 0;
 let pointerY = 0;
 let hoverIndex: string | null;
@@ -9,7 +10,7 @@ const randomNum = (min: number, max: number) => {
 };
 
 const shiftGrid = () => {
-  const imgParents: NodeList | any =
+  const imgParents: NodeListOf<HTMLElement> =
     document.querySelectorAll("#div-img__parents");
 
   for (let i = 0; i < imgParents.length; i++) {
@@ -23,7 +24,7 @@ const shiftGrid = () => {
 };
 
 const scaleImg = () => {
-  const img: NodeList | any = document.querySelectorAll("#img-items");
+  const img: NodeListOf<HTMLElement> = document.querySelectorAll("#img-items");
   const zoomIn = () => {
     for (let i = 0; i < img.length; i++) {
       img[i].onpointerover = () => {
@@ -46,13 +47,13 @@ const scaleImg = () => {
   zoomOut();
 };
 
-const fadeImg = (img: HTMLImageElement | any) => {
+const fadeImg = (img: HTMLImageElement) => {
   let opacity = 0;
 
   const fadeIn = setInterval(() => {
     opacity += 0.1;
 
-    img.style.opacity = opacity;
+    img.style.opacity = `${opacity}`;
 
     if (opacity >= 1) clearInterval(fadeIn);
   }, 100);
@@ -63,20 +64,38 @@ const addText = () => {
 
   for (let i = 0; i < data.length; i++) {
     const div = document.createElement("div");
-    const p: HTMLParagraphElement | any = document.createElement("p");
+    const p: HTMLParagraphElement = document.createElement("p");
 
     if (hoverIndex === data[i].id) {
-      p.innerText = data[i].name;
+      p.innerText = data[i].name!;
       p.className = "p-text__hover";
+      p.id = "p-text__hover";
       div?.appendChild(p);
       parent?.appendChild(div);
-      p.style = `--left: ${pointerX}px; --top:${pointerY}px`;
+      p.setAttribute("style", `--left: ${pointerX}px; --top:${pointerY}px`);
     }
   }
 
   return parent;
 };
 
+const pointerEventsImg = (img: HTMLImageElement, id: string) => {
+  img.onpointermove = () => {
+    addText();
+    hoverIndex = id;
+  };
+
+  img.onpointerenter = (e: PointerEvent) => {
+    pointerX = e.x;
+    pointerY = e.y;
+  };
+
+  img.onpointerleave = () => {
+    hoverIndex = null;
+  };
+
+  return img;
+};
 
 const getImages = () => {
   const viewport = document.getElementById("viewport");
@@ -86,33 +105,17 @@ const getImages = () => {
     div.className = "div-img__parents";
     div.id = "div-img__parents";
 
-    const img = document.createElement("img");
-    img.className = "img-items ";
+    const img: HTMLImageElement = document.createElement("img");
+    img.className = "img-items";
     img.id = "img-items";
-    img.src = data[i].image;
-    img.alt = data[i].name;
+    img.src = data[i].image!;
+    img.alt = data[i].name!;
 
     fadeImg(img);
 
     div.appendChild(img);
     viewport?.appendChild(div);
-
-    img.onpointermove = () => {
-      addText();
-
-      hoverIndex = data[i].id;
-    };
-
-    img.onpointerenter = (e: PointerEvent) => {
-      addText();
-      pointerX = e.x;
-      pointerY = e.y;
-      hoverIndex = data[i].id;
-    };
-
-    img.onpointerleave = () => {
-      hoverIndex = null;
-    };
+    pointerEventsImg(img, data[i].id!);
   }
 
   return viewport;
@@ -139,7 +142,7 @@ const getContainer = () => {
   shiftGrid();
   scaleImg();
 
-  const viewport: any = document.getElementById("viewport");
+  const viewport = document.getElementById("viewport");
 
   window.addEventListener(
     "pointermove",
@@ -147,7 +150,7 @@ const getContainer = () => {
       const { x, y } = transformViewport(e.x, e.y);
 
       if (typeof viewport !== "undefined")
-        viewport.style.transform = `translate(${-x * -2}px, ${-y * -2}px)`;
+        viewport!.style.transform = `translate(${-x * -2}px, ${-y * -2}px)`;
     },
     false
   );

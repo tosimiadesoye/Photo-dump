@@ -51,3 +51,7 @@
   top: var(--top);
   color: red;
 }
+
+.p-text__noEffect{
+  display: none;
+}
