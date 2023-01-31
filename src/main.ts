@@ -1,5 +1,8 @@
 import "./style.css";
 import { data } from "./data";
+let pointerX = 0;
+let pointerY = 0;
+let hoverIndex: string | null;
 
 const randomNum = (min: number, max: number) => {
   return Math.floor(Math.random() * (max - min + 1) + min);
@@ -8,13 +11,14 @@ const randomNum = (min: number, max: number) => {
 const shiftGrid = () => {
   const imgParents: NodeList | any =
     document.querySelectorAll("#div-img__parents");
-  const img: NodeList | any = document.querySelectorAll("#img-items");
+
   for (let i = 0; i < imgParents.length; i++) {
     imgParents[i].style.transform = `translate(${randomNum(
       0,
       100
     )}px, ${randomNum(0, 150)}px)`;
-    img[i].style.width = `${randomNum(70, 200)}px`;
+    imgParents[i].style.width = `${randomNum(70, 150)}px`;
+    imgParents[i].style.height = `${randomNum(70, 150)}px`;
   }
 };
 
@@ -23,8 +27,8 @@ const scaleImg = () => {
   const zoomIn = () => {
     for (let i = 0; i < img.length; i++) {
       img[i].onpointerover = () => {
-        img[i].style.transiton = `transform 1279s ease-in-out .51s`;
-        img[i].style.transform = `scale(${randomNum(1.2, 1.5)})`;
+        img[i].style.width = "200px";
+        img[i].style.height = "200px";
       };
     }
     return img;
@@ -33,8 +37,8 @@ const scaleImg = () => {
   const zoomOut = () => {
     for (let i = 0; i < img.length; i++) {
       img[i].onpointerout = () => {
-        img[i].style.transiton = `transform 0.1s ease-in-out`;
-        img[i].style.transform = `scale(1)`;
+        img[i].style.width = `${randomNum(70, 200)}px`;
+        img[i].style.height = `${randomNum(70, 200)}px`;
       };
     }
   };
@@ -42,46 +46,73 @@ const scaleImg = () => {
   zoomOut();
 };
 
+const fadeImg = (img: HTMLImageElement | any) => {
+  let opacity = 0;
+
+  const fadeIn = setInterval(() => {
+    opacity += 0.1;
+
+    img.style.opacity = opacity;
+
+    if (opacity >= 1) clearInterval(fadeIn);
+  }, 100);
+};
+
 const addText = () => {
-  const div: NodeListOf<Element> | any =
-    document.querySelectorAll("#div-img__parents");
+  const parent = document.getElementById("parent-text__hover");
 
   for (let i = 0; i < data.length; i++) {
-    const p = document.createElement("p");
-    p.innerText = data[i].name;
-    p.style.position = "absolute";
-    p.style.display = "none";
-    p.style.zIndex = "999";
+    const div = document.createElement("div");
+    const p: HTMLParagraphElement | any = document.createElement("p");
 
-    div[i]?.appendChild(p);
-
-    div[i].onpointerover = (e: PointerEvent) => {
-      p.style.left = e.x + "px";
-      p.style.top = e.y + "px";
-      p.style.display = "block";
-    };
-
-    div[i].onpointerout = () => {
-      p.style.display = "none";
-    };
+    if (hoverIndex === data[i].id) {
+      p.innerText = data[i].name;
+      p.className = "p-text__hover";
+      div?.appendChild(p);
+      parent?.appendChild(div);
+      p.style = `--left: ${pointerX}px; --top:${pointerY}px`;
+    }
   }
 
-  return div;
+  return parent;
 };
+
 
 const getImages = () => {
   const viewport = document.getElementById("viewport");
+
   for (let i = 0; i < data.length; i++) {
     const div = document.createElement("div");
     div.className = "div-img__parents";
     div.id = "div-img__parents";
+
     const img = document.createElement("img");
     img.className = "img-items ";
     img.id = "img-items";
     img.src = data[i].image;
     img.alt = data[i].name;
+
+    fadeImg(img);
+
     div.appendChild(img);
     viewport?.appendChild(div);
+
+    img.onpointermove = () => {
+      addText();
+
+      hoverIndex = data[i].id;
+    };
+
+    img.onpointerenter = (e: PointerEvent) => {
+      addText();
+      pointerX = e.x;
+      pointerY = e.y;
+      hoverIndex = data[i].id;
+    };
+
+    img.onpointerleave = () => {
+      hoverIndex = null;
+    };
   }
 
   return viewport;
@@ -107,7 +138,7 @@ const getContainer = () => {
   getImages();
   shiftGrid();
   scaleImg();
-  addText();
+
   const viewport: any = document.getElementById("viewport");
 
   window.addEventListener(

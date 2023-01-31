@@ -9,7 +9,7 @@ export const data: Data[] = [
   {
     id: "2",
     image: `https://images.unsplash.com/photo-1674267996985-ff879a2ce165?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1035&q=80`,
-    name: "image1",
+    name: "image2",
   },
   {
     id: "3",
