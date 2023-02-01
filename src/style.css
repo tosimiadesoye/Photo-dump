@@ -53,7 +53,7 @@
   z-index: 9999;
   left: var(--left);
   top: var(--top);
-  color: red;
+  color: rgba(0, 0, 0, 0.87);
   line-height: 3em;
   font-size: 1.5em;
 }

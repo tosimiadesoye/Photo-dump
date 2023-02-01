@@ -124,7 +124,7 @@ export const data: Data[] = [
       `./assets/images/505bd2a3-4623-484a-9bb5-86e7cbf483ca.jpg`,
       import.meta.url
     ).href,
-    name: "Tasha's birth party",
+    name: "Tasha's birthday party",
   },
   {
     id: "22",
