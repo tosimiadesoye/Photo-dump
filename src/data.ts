@@ -83,7 +83,7 @@ export const data: Data[] = [
   {
     id: "14",
     image: new URL(`./assets/images/IMG_5191.jpg`, import.meta.url).href,
-    name: "Cardiff: palance tour cont",
+    name: "Cardiff: palace tour cont",
   },
   {
     id: "15",
@@ -103,12 +103,12 @@ export const data: Data[] = [
   {
     id: "18",
     image: new URL(`./assets/images/IMG_8495.jpg`, import.meta.url).href,
-    name: "Mirro Mirror on the wall",
+    name: "Mirror mirror on the wall",
   },
   {
     id: "19",
     image: new URL(`./assets/images/IMG_8496.jpg`, import.meta.url).href,
-    name: "Mirro Mirror on the wall cont",
+    name: "Mirror mirror on the wall cont",
   },
   {
     id: "20",

@@ -1,17 +1,13 @@
 import "./style.css";
 import { data } from "./data";
+import { randomNum, shuffleArray } from "./func";
 
 let pointerX = 0;
 let pointerY = 0;
-let hoverIndex: string | null;
+let index: string | null;
 
-const p: HTMLParagraphElement = document.createElement("p");
-
-const randomNum = (min: number, max: number) => {
-  return Math.floor(Math.random() * (max - min + 1) + min);
-};
-
-
+const text: HTMLParagraphElement = document.createElement("h3");
+const shuffledData = shuffleArray(data);
 
 const shiftGrid = () => {
   const imgParents: NodeListOf<HTMLElement> =
@@ -32,8 +28,8 @@ const scaleImg = () => {
   const zoomIn = () => {
     for (let i = 0; i < img.length; i++) {
       img[i].onpointerover = () => {
-        img[i].style.width = "200px";
-        img[i].style.height = "200px";
+        img[i].style.width = "300px";
+        img[i].style.height = "300px";
       };
     }
     return img;
@@ -66,16 +62,16 @@ const fadeImg = (img: HTMLImageElement) => {
 const addText = () => {
   const parent = document.getElementById("parent-text__hover");
 
-  for (let i = 0; i < data.length; i++) {
+  for (let i = 0; i < shuffledData.length; i++) {
     const div = document.createElement("div");
 
-    if (hoverIndex === data[i].id) {
-      p.innerText = data[i].name!;
-      div?.appendChild(p);
+    if (index === data[i].id) {
+      text.innerText = data[i].name!;
+      div?.appendChild(text);
       parent?.appendChild(div);
-      p.setAttribute("style", `--left: ${pointerX}px; --top:${pointerY}px`);
+      text.setAttribute("style", `--left: ${pointerX}px; --top:${pointerY}px`);
 
-      if (hoverIndex === null) p.style.display = "none";
+      if (index === null) text.style.display = "none";
     }
   }
 
@@ -85,8 +81,8 @@ const addText = () => {
 const pointerEventsImg = (img: HTMLImageElement, id: string) => {
   img.onpointermove = () => {
     addText();
-    hoverIndex = id;
-    p.className = "p-text__hover";
+    index = id;
+    text.className = "p-text__hover";
   };
 
   img.onpointerenter = (e: PointerEvent) => {
@@ -100,7 +96,7 @@ const pointerEventsImg = (img: HTMLImageElement, id: string) => {
 const getImages = () => {
   const viewport = document.getElementById("viewport");
 
-  for (let i = 0; i < data.length; i++) {
+  for (let i = 0; i < shuffledData.length; i++) {
     const div = document.createElement("div");
 
     div.id = "div-img__parents";
@@ -108,6 +104,7 @@ const getImages = () => {
     const img: HTMLImageElement = document.createElement("img");
     img.className = "img-items";
     img.id = "img-items";
+
     img.src = data[i].image!;
     img.alt = data[i].name!;
 
@@ -120,6 +117,7 @@ const getImages = () => {
 
   return viewport;
 };
+
 const transformViewport = (x: number, y: number) => {
   const speed = 0.5;
   const num = 2 - 1;
@@ -137,6 +135,7 @@ const transformViewport = (x: number, y: number) => {
     y: translateY,
   };
 };
+
 const getContainer = () => {
   getImages();
   shiftGrid();
