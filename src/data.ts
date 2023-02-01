@@ -185,7 +185,7 @@ export const data: Data[] = [
   {
     id: "32",
     image: new URL(`./assets/images/IMG_7695.jpg`, import.meta.url).href,
-    name: "Legs for days",
+    name: "Friendship!!",
   },
   {
     id: "33",
