@@ -5,9 +5,13 @@ let pointerX = 0;
 let pointerY = 0;
 let hoverIndex: string | null;
 
+const p: HTMLParagraphElement = document.createElement("p");
+
 const randomNum = (min: number, max: number) => {
   return Math.floor(Math.random() * (max - min + 1) + min);
 };
+
+
 
 const shiftGrid = () => {
   const imgParents: NodeListOf<HTMLElement> =
@@ -18,8 +22,8 @@ const shiftGrid = () => {
       0,
       100
     )}px, ${randomNum(0, 150)}px)`;
-    imgParents[i].style.width = `${randomNum(70, 150)}px`;
-    imgParents[i].style.height = `${randomNum(70, 150)}px`;
+    imgParents[i].style.width = `${randomNum(50, 100)}px`;
+    imgParents[i].style.height = `${randomNum(50, 100)}px`;
   }
 };
 
@@ -64,15 +68,14 @@ const addText = () => {
 
   for (let i = 0; i < data.length; i++) {
     const div = document.createElement("div");
-    const p: HTMLParagraphElement = document.createElement("p");
 
     if (hoverIndex === data[i].id) {
       p.innerText = data[i].name!;
-      p.className = "p-text__hover";
-      p.id = "p-text__hover";
       div?.appendChild(p);
       parent?.appendChild(div);
       p.setAttribute("style", `--left: ${pointerX}px; --top:${pointerY}px`);
+
+      if (hoverIndex === null) p.style.display = "none";
     }
   }
 
@@ -83,15 +86,12 @@ const pointerEventsImg = (img: HTMLImageElement, id: string) => {
   img.onpointermove = () => {
     addText();
     hoverIndex = id;
+    p.className = "p-text__hover";
   };
 
   img.onpointerenter = (e: PointerEvent) => {
     pointerX = e.x;
     pointerY = e.y;
-  };
-
-  img.onpointerleave = () => {
-    hoverIndex = null;
   };
 
   return img;
@@ -102,7 +102,7 @@ const getImages = () => {
 
   for (let i = 0; i < data.length; i++) {
     const div = document.createElement("div");
-    div.className = "div-img__parents";
+
     div.id = "div-img__parents";
 
     const img: HTMLImageElement = document.createElement("img");
