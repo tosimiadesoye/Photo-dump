@@ -1,5 +1,5 @@
 import "./style.css";
-import { data } from "./data";
+import { data } from "./myPhotos";
 import { randomNum, shuffleArray } from "./func";
 
 let pointerX = 0;
@@ -25,8 +25,8 @@ if (window.innerWidth < 500) {
         0,
         100
       )}px, ${randomNum(0, 150)}px)`;
-      imgParents[i].style.width = `${randomNum(50, 100)}px`;
-      imgParents[i].style.height = `${randomNum(50, 100)}px`;
+      imgParents[i].style.width = `${randomNum(100, 200)}px`;
+      imgParents[i].style.height = `${randomNum(100, 200)}px`;
     }
   };
 
@@ -36,8 +36,8 @@ if (window.innerWidth < 500) {
     const zoomIn = () => {
       for (let i = 0; i < img.length; i++) {
         img[i].onpointerover = () => {
-          img[i].style.width = "300px";
-          img[i].style.height = "300px";
+          img[i].style.width = `${randomNum(200, 400)}px`;
+          img[i].style.height = `${randomNum(200, 400)}px`;
         };
       }
       return img;
@@ -59,7 +59,7 @@ if (window.innerWidth < 500) {
     let opacity = 0;
 
     const fadeIn = setInterval(() => {
-      opacity += 0.3;
+      opacity += 0.2;
 
       img.style.opacity = `${opacity}`;
 
@@ -130,14 +130,14 @@ if (window.innerWidth < 500) {
   };
 
   const transformViewport = (x: number, y: number) => {
-    const speed = 0.5;
-    const num = 2 - 1;
+    const speed = 1;
+    const multiplier = -1;
 
-    const normaliseX = (x / window.innerWidth) * num;
+    const normaliseX = (x / window.innerWidth) * multiplier;
     const percentageX = normaliseX * 100;
     const translateX = percentageX * speed;
 
-    const normaliseY = (y / window.innerHeight) * num;
+    const normaliseY = (y / window.innerHeight) * multiplier;
     const percentageY = normaliseY * 100;
     const translateY = percentageY * speed;
 
