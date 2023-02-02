@@ -59,7 +59,7 @@ if (window.innerWidth < 500) {
     let opacity = 0;
 
     const fadeIn = setInterval(() => {
-      opacity += 0.2;
+      opacity += 0.3;
 
       img.style.opacity = `${opacity}`;
 
