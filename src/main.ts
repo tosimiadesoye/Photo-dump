@@ -1,5 +1,5 @@
 import "./style.css";
-import { data } from "./myPhotos";
+import { data } from "./data";
 import { randomNum, shuffleArray } from "./func";
 
 let pointerX = 0;
@@ -25,8 +25,8 @@ if (window.innerWidth < 500) {
         0,
         100
       )}px, ${randomNum(0, 150)}px)`;
-      imgParents[i].style.width = `${randomNum(100, 200)}px`;
-      imgParents[i].style.height = `${randomNum(100, 200)}px`;
+      imgParents[i].style.width = `${randomNum(150, 250)}px`;
+      imgParents[i].style.height = `${randomNum(150, 250)}px`;
     }
   };
 
